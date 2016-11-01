@@ -1,7 +1,7 @@
 <?php
 
 /* CRIA A CONEXÃO */
-$db = new \PDO("mysql:host=localhost:3306;dbname=php-avancando-com-oo", "root", "root");
+$db = new \PDO("mysql:host=localhost;dbname=php-avancando-com-oo", "root", "root");
 
 $query = "select * from produto";
 

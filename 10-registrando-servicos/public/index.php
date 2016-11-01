@@ -9,34 +9,18 @@ use Pimple\Container;
 /* CRIANDO UM CONTAINER DE SERVIÇOS */
 $container = new Container();
 
-/* CRIANDO UM SERVIÇO DE DATA*/
-$container['date'] = function () {
-    return new \DateTime;
+/* CRIANDO UM CONTAINER PARA RETORNAR A CONEXÃO COM O BD */
+$container['conn'] = function(){
+    return new \Source\Conn("mysql:host=localhost:3306;dbname=php-avancando-com-oo", "root", "root");
 };
 
-/* ACESSANDO O SERVIÇO NO CONTAINER E MOSTRANDO O RESULTADO */
-/* EXECUTA O SERVIÇO A CADA CHAMADA MAS RETORNA O MESMO OBJETO */
-var_dump($container['date']);
-echo "<br>";
-sleep(5);
-echo "<br>";
-var_dump($container['date']);
+/* CRIANDO UM CONTAINER PARA RETORNAR PRODUTOS */
+$container['produto'] = function($c){
+    return new \Source\Produto($c['conn']);
+};
 
-echo "<br>";
-echo "<br>";
+$list = $container['produto']->listAll();
 
-/* CRIANDO UM SERVIÇO DE DATA TO TIPO FACTORY POOIS CRIA UM NOVO OBJETO A CADA CHAMADA DO SERVIÇO */
-$container['dateFactory'] = $container->factory(function () {
-    return new \DateTime;
-});
+var_dump($list);
 
-/* ACESSANDO O SERVIÇO NO CONTAINER E MOSTRANDO O RESULTADO */
-/* EXECUTA O SERVIÇO A CADA CHAMADA E RETORNA UM NOVO OBJETO */
-var_dump($container['dateFactory']);
-echo "<br>";
-sleep(5);
-echo "<br>";
-var_dump($container['dateFactory']);
-
-
-
+echo "Hey there!";
